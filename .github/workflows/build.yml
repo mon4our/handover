@@ -16,3 +16,10 @@ jobs:
       # that it compiles and starts.
       - name: Smoke test
         run: ./headphone-disconnect --help
+
+      # The icon file shipped once without Info.plist referencing it, which shows up as a
+      # generic app icon in Finder and nowhere else.
+      - name: Check the app bundle references its icon
+        run: |
+          plutil -lint Resources/Info.plist
+          test -f "Resources/$(plutil -extract CFBundleIconFile raw Resources/Info.plist).icns"
