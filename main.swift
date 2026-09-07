@@ -68,7 +68,7 @@ func runHeadless(settings: Settings) -> Never {
     exit(0)
 }
 
-func usage() -> Never {
+func usage(_ exitCode: Int32 = 1) -> Never {
     print("""
     usage: headphone-disconnect [menubar|watch|disconnect|connect|status] [options]
 
@@ -83,7 +83,7 @@ func usage() -> Never {
       --config <path>    config file (default: ~/.config/headphone-disconnect/config.json)
       --device <addr>    device address, repeatable; overrides the config file's device list
     """)
-    exit(1)
+    exit(exitCode)
 }
 
 // MARK: - Arguments
@@ -109,7 +109,7 @@ while index < args.count {
         overrideDevices.append(Bluetooth.normalize(args[index + 1]))
         index += 2
     case "-h", "--help":
-        usage()
+        usage(0)
     default:
         usage()
     }
