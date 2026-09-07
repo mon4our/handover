@@ -54,7 +54,28 @@ final class Settings {
 
     init(path: String) {
         self.path = path
+        Settings.migrateLegacyConfig(to: path)
         self.config = Settings.read(path: path)
+    }
+
+    /// Handover used to be called headphone-disconnect. Carry the old config over the first
+    /// time we run, so the rename doesn't silently reset which headphones are managed. This
+    /// lives here rather than in install.sh so it also covers Homebrew and manual installs.
+    private static func migrateLegacyConfig(to path: String) {
+        let manager = FileManager.default
+        guard path == Config.defaultPath, !manager.fileExists(atPath: path) else { return }
+        let legacy = ("~/.config/headphone-disconnect/config.json" as NSString).expandingTildeInPath
+        guard manager.fileExists(atPath: legacy) else { return }
+        try? manager.createDirectory(
+            atPath: (path as NSString).deletingLastPathComponent,
+            withIntermediateDirectories: true
+        )
+        do {
+            try manager.copyItem(atPath: legacy, toPath: path)
+            log("migrated config from \(legacy)")
+        } catch {
+            log("warning: could not migrate \(legacy): \(error.localizedDescription)")
+        }
     }
 
     private static func read(path: String) -> Config {

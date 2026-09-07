@@ -44,12 +44,6 @@ mkdir -p "$BIN_DIR"
 install -m 755 handover "$CLI"
 
 mkdir -p "$CONFIG_DIR"
-# This used to be called headphone-disconnect; keep the device choice across the rename.
-OLD_CONFIG="$HOME/.config/headphone-disconnect/config.json"
-if [ ! -f "$CONFIG" ] && [ -f "$OLD_CONFIG" ]; then
-    echo "==> migrating config from headphone-disconnect"
-    cp "$OLD_CONFIG" "$CONFIG"
-fi
 if [ "$#" -gt 0 ]; then
     devices=("$@")
 elif [ -f "$CONFIG" ]; then
