@@ -1,0 +1,5 @@
+# Built product
+/headphone-disconnect
+*.dSYM/
+
+.DS_Store

@@ -1,0 +1,18 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: ./build.sh
+      # The menu bar and Bluetooth paths need a real login session, so CI only checks
+      # that it compiles and starts.
+      - name: Smoke test
+        run: ./headphone-disconnect --help
