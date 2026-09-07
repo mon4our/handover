@@ -38,7 +38,7 @@ ln -s "$(brew --prefix)/opt/headphone-disconnect/Headphone Disconnect.app" ~/App
 git clone https://github.com/mon4our/headphone-disconnect.git
 cd headphone-disconnect
 ./install.sh                       # manages whatever audio device is connected right now
-./install.sh 88:92:CC:1B:6D:03     # or name the device(s) explicitly
+./install.sh AA:BB:CC:11:22:33     # or name the device(s) explicitly
 ```
 
 That builds `~/Applications/Headphone Disconnect.app`, installs a CLI at
@@ -73,7 +73,7 @@ A headphones icon appears in the menu bar; it dims when nothing it manages is co
   [x] Reconnect When Mac Wakes
   ---
   Headphones >
-      [ ] Kunika's Headset
+      [ ] Office Speaker
       [x] JBL Tune 770NC (connected)
   ---
   Open Log...
