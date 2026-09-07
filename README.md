@@ -21,6 +21,7 @@ to anyone else. So this utility does the manual step for you, on the sleep/wake 
 
 ```sh
 brew tap mon4our/tap
+brew trust mon4our/tap        # Homebrew 6 requires third-party taps to be trusted
 brew install headphone-disconnect
 brew services start headphone-disconnect
 ```
