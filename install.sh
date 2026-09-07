@@ -1,21 +1,21 @@
 #!/bin/bash
-# Builds Headphone Disconnect, writes a config if there isn't one, and loads the LaunchAgent
+# Builds Handover, writes a config if there isn't one, and loads the LaunchAgent
 # that starts the menu bar app at login.
 # usage: ./install.sh [device-address ...]
 set -euo pipefail
 
 cd "$(dirname "$0")"
 
-LABEL="com.github.mon4our.headphone-disconnect"
+LABEL="com.github.mon4our.handover"
 # Labels used by earlier versions, booted out on upgrade.
-OLD_LABELS=("local.headphone-disconnect")
-APP="$HOME/Applications/Headphone Disconnect.app"
+OLD_LABELS=("com.github.mon4our.headphone-disconnect" "local.headphone-disconnect")
+APP="$HOME/Applications/Handover.app"
 BIN_DIR="$HOME/.local/bin"
-CLI="$BIN_DIR/headphone-disconnect"
-CONFIG_DIR="$HOME/.config/headphone-disconnect"
+CLI="$BIN_DIR/handover"
+CONFIG_DIR="$HOME/.config/handover"
 CONFIG="$CONFIG_DIR/config.json"
 PLIST="$HOME/Library/LaunchAgents/$LABEL.plist"
-LOG="$HOME/Library/Logs/headphone-disconnect.log"
+LOG="$HOME/Library/Logs/handover.log"
 
 echo "==> building"
 ./build.sh
@@ -25,12 +25,12 @@ for label in "$LABEL" "${OLD_LABELS[@]}"; do
     launchctl bootout "gui/$UID/$label" 2>/dev/null || true
     rm -f "$HOME/Library/LaunchAgents/$label.plist"
 done
-pkill -x headphone-disconnect 2>/dev/null || true
+pkill -x handover 2>/dev/null || true
 
 echo "==> installing $APP"
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS"
-install -m 755 headphone-disconnect "$APP/Contents/MacOS/headphone-disconnect"
+install -m 755 handover "$APP/Contents/MacOS/handover"
 mkdir -p "$APP/Contents/Resources"
 install -m 644 Resources/Info.plist "$APP/Contents/Info.plist"
 install -m 644 Resources/AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"
@@ -41,9 +41,15 @@ touch "$APP"
 
 echo "==> installing CLI to $CLI"
 mkdir -p "$BIN_DIR"
-install -m 755 headphone-disconnect "$CLI"
+install -m 755 handover "$CLI"
 
 mkdir -p "$CONFIG_DIR"
+# This used to be called headphone-disconnect; keep the device choice across the rename.
+OLD_CONFIG="$HOME/.config/headphone-disconnect/config.json"
+if [ ! -f "$CONFIG" ] && [ -f "$OLD_CONFIG" ]; then
+    echo "==> migrating config from headphone-disconnect"
+    cp "$OLD_CONFIG" "$CONFIG"
+fi
 if [ "$#" -gt 0 ]; then
     devices=("$@")
 elif [ -f "$CONFIG" ]; then
@@ -96,7 +102,7 @@ cat > "$PLIST" <<PLIST_EOF
     <string>$LABEL</string>
     <key>ProgramArguments</key>
     <array>
-        <string>$APP/Contents/MacOS/headphone-disconnect</string>
+        <string>$APP/Contents/MacOS/handover</string>
         <string>menubar</string>
     </array>
     <key>RunAtLoad</key>

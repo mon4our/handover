@@ -3,19 +3,19 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleName</key>
-    <string>Headphone Disconnect</string>
+    <string>Handover</string>
     <key>CFBundleDisplayName</key>
-    <string>Headphone Disconnect</string>
+    <string>Handover</string>
     <key>CFBundleIdentifier</key>
-    <string>com.github.mon4our.headphone-disconnect</string>
+    <string>com.github.mon4our.handover</string>
     <key>CFBundleIconFile</key>
     <string>AppIcon</string>
     <key>CFBundleExecutable</key>
-    <string>headphone-disconnect</string>
+    <string>handover</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.0.1</string>
+    <string>1.1.0</string>
     <key>CFBundleVersion</key>
     <string>1</string>
     <key>LSMinimumSystemVersion</key>
@@ -27,8 +27,8 @@
     <true/>
     <!-- Required: macOS kills a bundled app that touches Bluetooth without these. -->
     <key>NSBluetoothAlwaysUsageDescription</key>
-    <string>Headphone Disconnect connects and disconnects your headphones when this Mac sleeps and wakes.</string>
+    <string>Handover connects and disconnects your headphones when this Mac sleeps and wakes.</string>
     <key>NSBluetoothPeripheralUsageDescription</key>
-    <string>Headphone Disconnect connects and disconnects your headphones when this Mac sleeps and wakes.</string>
+    <string>Handover connects and disconnects your headphones when this Mac sleeps and wakes.</string>
 </dict>
 </plist>

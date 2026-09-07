@@ -17,7 +17,7 @@ struct Config {
     var skipDarkWake = true
     var darkWakeGraceSeconds: Double = 120
 
-    static let defaultPath = ("~/.config/headphone-disconnect/config.json" as NSString).expandingTildeInPath
+    static let defaultPath = ("~/.config/handover/config.json" as NSString).expandingTildeInPath
 
     init() {}
 

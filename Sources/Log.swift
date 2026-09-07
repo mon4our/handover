@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - Logging
 
-let logPath = ("~/Library/Logs/headphone-disconnect.log" as NSString).expandingTildeInPath
+let logPath = ("~/Library/Logs/handover.log" as NSString).expandingTildeInPath
 
 private let logFormatter: DateFormatter = {
     let f = DateFormatter()

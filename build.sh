@@ -9,5 +9,5 @@ swiftc -O \
     -framework IOKit \
     -framework CoreGraphics \
     -framework AppKit \
-    -o headphone-disconnect \
+    -o handover \
     main.swift Sources/*.swift

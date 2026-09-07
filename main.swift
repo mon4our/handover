@@ -1,4 +1,4 @@
-// headphone-disconnect — drop Bluetooth audio devices when the Mac sleeps, reconnect them when
+// handover — drop Bluetooth audio devices when the Mac sleeps, reconnect them when
 // it wakes, so multipoint headphones stay usable on your phone.
 //
 // See install.sh for the build; sources live in Sources/.
@@ -56,7 +56,7 @@ var menuBarController: MenuBarController?
 
 func runHeadless(settings: Settings) -> Never {
     guard !settings.config.devices.isEmpty else {
-        log("fatal: no devices configured (\(settings.path)); run `headphone-disconnect status` to list addresses")
+        log("fatal: no devices configured (\(settings.path)); run `handover status` to list addresses")
         exit(1)
     }
     let watcher = SleepWatcher(settings: settings)
@@ -70,7 +70,7 @@ func runHeadless(settings: Settings) -> Never {
 
 func usage(_ exitCode: Int32 = 1) -> Never {
     print("""
-    usage: headphone-disconnect [menubar|watch|disconnect|connect|status] [options]
+    usage: handover [menubar|watch|disconnect|connect|status] [options]
 
       menubar     (default) menu bar UI, with sleep/wake handling built in
       watch       sleep/wake handling only, no UI
@@ -80,7 +80,7 @@ func usage(_ exitCode: Int32 = 1) -> Never {
       dump-menu   print what the menu bar UI would show (debugging)
 
     options:
-      --config <path>    config file (default: ~/.config/headphone-disconnect/config.json)
+      --config <path>    config file (default: ~/.config/handover/config.json)
       --device <addr>    device address, repeatable; overrides the config file's device list
     """)
     exit(exitCode)

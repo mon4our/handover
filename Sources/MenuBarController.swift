@@ -37,7 +37,7 @@ final class MenuBarController: NSObject, NSMenuDelegate {
     // MARK: Icon
 
     private func icon(named name: String) -> NSImage? {
-        let image = NSImage(systemSymbolName: name, accessibilityDescription: "Headphone Disconnect")
+        let image = NSImage(systemSymbolName: name, accessibilityDescription: "Handover")
         image?.isTemplate = true
         return image
     }
@@ -161,7 +161,7 @@ final class MenuBarController: NSObject, NSMenuDelegate {
     }
 
     /// Build the menu and describe it as text — lets you check the UI's state from a terminal
-    /// (`headphone-disconnect dump-menu`) without clicking anything.
+    /// (`handover dump-menu`) without clicking anything.
     func describeMenu() -> String {
         menuWillOpen(menu)
         return describe(menu, indent: "  ").joined(separator: "\n")

@@ -1,7 +1,11 @@
-# headphone-disconnect
+# Handover
 
-Drops your Bluetooth headphones from this Mac when it goes to sleep, and reconnects them when
-it wakes up.
+A macOS menu bar utility that drops your Bluetooth headphones from your Mac when it sleeps, and
+reconnects them when it wakes — so multipoint headphones actually play audio from your phone
+while the Mac is asleep.
+
+Named after the telecom term for transferring a live connection between base stations, which is
+what it does: hands the headphones from the Mac to whatever else wants them.
 
 ## Why
 
@@ -22,28 +26,28 @@ to anyone else. So this utility does the manual step for you, on the sleep/wake 
 ```sh
 brew tap mon4our/tap
 brew trust mon4our/tap        # Homebrew 6 requires third-party taps to be trusted
-brew install headphone-disconnect
-brew services start headphone-disconnect
+brew install handover
+brew services start handover
 ```
 
 The formula compiles from source on your machine, so there is no Gatekeeper prompt and nothing
 to un-quarantine. To get a clickable app in Finder as well:
 
 ```sh
-ln -s "$(brew --prefix)/opt/headphone-disconnect/Headphone Disconnect.app" ~/Applications/
+ln -s "$(brew --prefix)/opt/handover/Handover.app" ~/Applications/
 ```
 
 ### From source
 
 ```sh
-git clone https://github.com/mon4our/headphone-disconnect.git
-cd headphone-disconnect
+git clone https://github.com/mon4our/handover.git
+cd handover
 ./install.sh                       # manages whatever audio device is connected right now
 ./install.sh AA:BB:CC:11:22:33     # or name the device(s) explicitly
 ```
 
-That builds `~/Applications/Headphone Disconnect.app`, installs a CLI at
-`~/.local/bin/headphone-disconnect`, writes `~/.config/headphone-disconnect/config.json`, and
+That builds `~/Applications/Handover.app`, installs a CLI at
+`~/.local/bin/handover`, writes `~/.config/handover/config.json`, and
 loads a LaunchAgent so it starts at login.
 
 `./uninstall.sh` removes the agent, app, and CLI, keeping your config and log.
@@ -86,7 +90,7 @@ A headphones icon appears in the menu bar; it dims when nothing it manages is co
 - **Disconnect When Mac Sleeps** — pause the automatic behaviour without uninstalling anything.
 - **Headphones** — which paired audio devices to manage. Ticking one adds it to the config.
 - **Quit** stays quit; the LaunchAgent only restarts the app if it crashes. Bring it back with
-  `launchctl kickstart gui/$UID/com.github.mon4our.headphone-disconnect` or by opening the app.
+  `launchctl kickstart gui/$UID/com.github.mon4our.handover` or by opening the app.
 
 The menu and the config file are the same state, so a toggle in the menu is visible to the CLI
 and vice versa.
@@ -94,27 +98,27 @@ and vice versa.
 ## Use
 
 ```sh
-headphone-disconnect status       # configured + paired audio devices, and their state
-headphone-disconnect disconnect  # do it now
-headphone-disconnect connect     # undo it now
-headphone-disconnect dump-menu   # print what the menu shows, without clicking it
-headphone-disconnect menubar     # the UI + watcher (what the LaunchAgent runs)
-headphone-disconnect watch       # watcher only, no UI
+handover status       # configured + paired audio devices, and their state
+handover disconnect  # do it now
+handover connect     # undo it now
+handover dump-menu   # print what the menu shows, without clicking it
+handover menubar     # the UI + watcher (what the LaunchAgent runs)
+handover watch       # watcher only, no UI
 ```
 
-Log: `~/Library/Logs/headphone-disconnect.log`
+Log: `~/Library/Logs/handover.log`
 
 ```sh
-tail -f ~/Library/Logs/headphone-disconnect.log
+tail -f ~/Library/Logs/handover.log
 ```
 
 ## Config
 
-`~/.config/headphone-disconnect/config.json`
+`~/.config/handover/config.json`
 
 | key | default | meaning |
 | --- | --- | --- |
-| `devices` | — | Bluetooth addresses to manage. Set from the menu's Headphones submenu, or `headphone-disconnect status` to list addresses. |
+| `devices` | — | Bluetooth addresses to manage. Set from the menu's Headphones submenu, or `handover status` to list addresses. |
 | `enabled` | `true` | The menu's "Disconnect When Mac Sleeps" toggle. |
 | `reconnectOnWake` | `true` | Reconnect on wake. Set `false` to only ever disconnect. |
 | `reconnectDelay` | `3` | Seconds to wait after wake before the first attempt; the Bluetooth stack needs a moment. |
@@ -126,7 +130,7 @@ tail -f ~/Library/Logs/headphone-disconnect.log
 Restart the agent after editing:
 
 ```sh
-launchctl kickstart -k gui/$UID/com.github.mon4our.headphone-disconnect
+launchctl kickstart -k gui/$UID/com.github.mon4our.handover
 ```
 
 ## How it works
@@ -155,6 +159,10 @@ Second, a *bundled* app that touches Bluetooth is killed by TCC (`OS_REASON_TCC`
 plain binary inherits the permissions of whatever launched it.
 
 ## Notes
+
+- This was called `headphone-disconnect` before v1.1.0. `install.sh` boots out the old launchd
+  agent and carries your config over; Homebrew users can `brew uninstall headphone-disconnect`
+  and `brew install handover`.
 
 - Runtime-verified on macOS Sonoma 14.2 (Apple silicon) with JBL Tune 770NC: sleep, wake,
   reconnect, and audio actually playing from the phone while the Mac slept. CI compiles it on
