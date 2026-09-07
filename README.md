@@ -156,8 +156,11 @@ plain binary inherits the permissions of whatever launched it.
 
 ## Notes
 
-- Verified on macOS Sonoma 14.2 (Apple silicon) with JBL Tune 770NC. `Info.plist` claims 13.0 as
-  the minimum; Ventura and Sequoia are untested, though nothing here uses a recent API.
+- Runtime-verified on macOS Sonoma 14.2 (Apple silicon) with JBL Tune 770NC: sleep, wake,
+  reconnect, and audio actually playing from the phone while the Mac slept. CI compiles it on
+  macOS 26 (Tahoe), but nothing about the *behaviour* on 13, 15, or 26 is verified — CI has no
+  Bluetooth hardware and no login session. `Info.plist` claims 13.0 as the minimum on the grounds
+  that nothing here uses a recent API.
 - Layout: `main.swift` (CLI entry) and `Sources/` (the pieces), `Resources/Info.plist` and
   `Resources/AppIcon.icns` for the bundle, `build.sh` for the compile — shared by `install.sh`
   and the Homebrew formula so the flags can't drift. No Xcode project.
